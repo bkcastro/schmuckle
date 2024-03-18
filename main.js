@@ -8,7 +8,7 @@ const gui = new GUI()
 gui.hide()
 
 // Scene
-const scene = new THREE.Scene()
+const scene = new THREE.Scene();
 
 const light = new THREE.AmbientLight( 0x404040 ); // soft white light
 scene.add( light );
@@ -21,7 +21,7 @@ scene.add( directionalLight );
 const hemiLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
 scene.add( hemiLight );
 
-scene.add(new THREE.AxesHelper(10, 10));
+scene.add(new THREE.AxesHelper(1, 1));
 
 const sizes = {
     width: window.innerWidth,
@@ -59,15 +59,12 @@ renderer.physicallyCorrectLights = true;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setClearColor(new THREE.Color(0xffffFF));
 
+const pig = await new Pig(); 
+scene.add(pig);
 
 // Controls
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
-
-scene.add(controls);
-
-var pig = new Pig();
-scene.add(pig);
 
 const clock = new THREE.Clock()
 
@@ -77,9 +74,7 @@ renderer.setAnimationLoop(function () {
 
     // Update controls
     controls.update()
-
-    pig.update();
-
+    pig.update(elapsedTime);
     renderer.render(scene, camera);
 
 });
